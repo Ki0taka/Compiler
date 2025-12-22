@@ -1,0 +1,108 @@
+MainProgram ACADyyyyyyy;
+Declaration
+## Partie declaration - Test des declarations
+L,S,K : Entier;
+F,W : Reel;
+i,j : Entier;
+X : Entier;
+Y : Reel;
+L : Entier;
+
+Body
+begin
+{
+## Partie Instruction - Tests semantiques
+
+## Test 1: Variable non declaree
+Z := 10;
+
+## Test 2: Affectations correctes
+S := 5 + 3;
+L := K * 2;
+F := 3 + 2;
+
+## Test 3: Incompatibilite de type
+X := F + W;
+
+## Test 4: Expressions mixtes
+Y := L + F;
+K := 10 / 2 + 3 * 4;
+
+## Test 5: Variable non declaree dans expression
+Prod := D * F - 3 + 4 / 2;
+
+## Test 6: Write correct
+Write("Test ACAD - Analyse Semantique");
+
+## Test 7: Boucle FOR correcte
+For i de 1 à 5 pas 1
+{
+    S := S + 1;
+    L := L * 2;
+}
+
+## Test 8: Boucle FOR avec pas zero
+For j de 1 à 10 pas 0
+{
+    K := K + 1;
+}
+
+## Test 9: Boucle FOR avec variable non declaree
+For count de 1 à 5 pas 1
+{
+    X := X + 1;
+}
+
+## Test 10: Boucle FOR avec variable FLOAT
+For F de 1 à 5 pas 1
+{
+    W := W + 1;
+}
+
+## Test 11: Boucle FOR infinie
+For i de 10 à 1 pas 1
+{
+    S := S - 1;
+}
+
+## Test 12: Boucle DO-WHILE correcte
+Do
+{
+    L := L - 1;
+    S := S + L;
+}
+While (L > 0);
+
+## Test 13: Condition avec variable non declaree
+If (M < 10)
+{
+    X := 5;
+}
+Else
+{
+    X := 10;
+}
+EndIf;
+
+## Test 14: Condition correcte
+If (S > K)
+{
+    Write("S est plus grand");
+    L := S - K;
+}
+Else
+{
+    Write("K est plus grand ou egal");
+    L := K - S;
+}
+EndIf;
+
+## Test 15: Expressions complexes
+Y := (F + W) * 2 - L / 2;
+X := (L + K) * (S - 1);
+
+## Test 16: Utilisation de variable non declaree
+Result := X + Y;
+
+}
+end

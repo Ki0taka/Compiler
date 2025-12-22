@@ -1,0 +1,1342 @@
+Grammar
+
+    0 $accept: S $end
+
+    1 S: MC_MAIN IDF SEMICOL DEC_PART BODY_PART
+
+    2 DEC_PART: DEC DECLS
+
+    3 DECLS: DECLS DECL
+    4      | DECL
+
+    5 DECL: IDS ':' TYPE SEMICOL
+
+    6 IDS: IDF
+    7    | IDF ',' IDS
+
+    8 TYPE: T_INT
+    9     | T_FLOAT
+
+   10 BODY_PART: BODY BEG LBRACE INSTS RBRACE END
+
+   11 INSTS: INST
+   12      | INSTS INST
+
+   13 INST: AFFECT SEMICOL
+   14     | WRITE LPAREN CHAINE RPAREN SEMICOL
+   15     | COND
+   16     | LOOP
+   17     | ARRAY_DECL SEMICOL
+
+   18 AFFECT: IDF ASSIGN EXPR
+
+   19 ARRAY_DECL: IDF LBRACKET CST RBRACKET
+
+   20 EXPR: EXPR PLUS EXPR
+   21     | EXPR MINUS EXPR
+   22     | EXPR MUL EXPR
+   23     | EXPR DIV EXPR
+   24     | LPAREN EXPR RPAREN
+   25     | CST
+   26     | IDF
+
+   27 COND: IF LPAREN COND_EXPR RPAREN LBRACE INSTS RBRACE ELSE_PART ENDIF SEMICOL
+
+   28 ELSE_PART: ELSE LBRACE INSTS RBRACE
+   29          | /* empty */
+
+   30 COND_EXPR: EXPR LT EXPR
+   31          | EXPR LE EXPR
+   32          | EXPR GT EXPR
+   33          | EXPR GE EXPR
+   34          | EXPR EQ EXPR
+   35          | EXPR NE EXPR
+   36          | COND_EXPR AND COND_EXPR
+   37          | COND_EXPR OR COND_EXPR
+   38          | NOT COND_EXPR
+   39          | LPAREN COND_EXPR RPAREN
+
+   40 LOOP: FOR IDF DE CST A CST PAS CST LBRACE INSTS RBRACE
+   41     | DO LBRACE INSTS RBRACE WHILE LPAREN COND_EXPR RPAREN SEMICOL
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+',' (44) 7
+':' (58) 5
+error (256)
+MC_MAIN (258) 1
+DEC (259) 2
+T_INT (260) 8
+T_FLOAT (261) 9
+BODY (262) 10
+BEG (263) 10
+END (264) 10
+WRITE (265) 14
+IF (266) 27
+ELSE (267) 28
+ENDIF (268) 27
+FOR (269) 40
+DE (270) 40
+A (271) 40
+PAS (272) 40
+DO (273) 41
+WHILE (274) 41
+IDF (275) 1 6 7 18 19 26 40
+CST (276) 19 25 40
+CHAINE (277) 14
+PLUS (278) 20
+MINUS (279) 21
+MUL (280) 22
+DIV (281) 23
+EQ (282) 34
+NE (283) 35
+LT (284) 30
+LE (285) 31
+GT (286) 32
+GE (287) 33
+ASSIGN (288) 18
+AND (289) 36
+OR (290) 37
+NOT (291) 38
+LBRACE (292) 10 27 28 40 41
+RBRACE (293) 10 27 28 40 41
+LPAREN (294) 14 24 27 39 41
+RPAREN (295) 14 24 27 39 41
+LBRACKET (296) 19
+RBRACKET (297) 19
+SEMICOL (298) 1 5 13 14 17 27 41
+
+
+Nonterminals, with rules where they appear
+
+$accept (46)
+    on left: 0
+S (47)
+    on left: 1, on right: 0
+DEC_PART (48)
+    on left: 2, on right: 1
+DECLS (49)
+    on left: 3 4, on right: 2 3
+DECL (50)
+    on left: 5, on right: 3 4
+IDS (51)
+    on left: 6 7, on right: 5 7
+TYPE (52)
+    on left: 8 9, on right: 5
+BODY_PART (53)
+    on left: 10, on right: 1
+INSTS (54)
+    on left: 11 12, on right: 10 12 27 28 40 41
+INST (55)
+    on left: 13 14 15 16 17, on right: 11 12
+AFFECT (56)
+    on left: 18, on right: 13
+ARRAY_DECL (57)
+    on left: 19, on right: 17
+EXPR (58)
+    on left: 20 21 22 23 24 25 26, on right: 18 20 21 22 23 24 30 31
+    32 33 34 35
+COND (59)
+    on left: 27, on right: 15
+ELSE_PART (60)
+    on left: 28 29, on right: 27
+COND_EXPR (61)
+    on left: 30 31 32 33 34 35 36 37 38 39, on right: 27 36 37 38 39
+    41
+LOOP (62)
+    on left: 40 41, on right: 16
+
+
+state 0
+
+    0 $accept: . S $end
+
+    MC_MAIN  shift, and go to state 1
+
+    S  go to state 2
+
+
+state 1
+
+    1 S: MC_MAIN . IDF SEMICOL DEC_PART BODY_PART
+
+    IDF  shift, and go to state 3
+
+
+state 2
+
+    0 $accept: S . $end
+
+    $end  shift, and go to state 4
+
+
+state 3
+
+    1 S: MC_MAIN IDF . SEMICOL DEC_PART BODY_PART
+
+    SEMICOL  shift, and go to state 5
+
+
+state 4
+
+    0 $accept: S $end .
+
+    $default  accept
+
+
+state 5
+
+    1 S: MC_MAIN IDF SEMICOL . DEC_PART BODY_PART
+
+    DEC  shift, and go to state 6
+
+    DEC_PART  go to state 7
+
+
+state 6
+
+    2 DEC_PART: DEC . DECLS
+
+    IDF  shift, and go to state 8
+
+    DECLS  go to state 9
+    DECL   go to state 10
+    IDS    go to state 11
+
+
+state 7
+
+    1 S: MC_MAIN IDF SEMICOL DEC_PART . BODY_PART
+
+    BODY  shift, and go to state 12
+
+    BODY_PART  go to state 13
+
+
+state 8
+
+    6 IDS: IDF .
+    7    | IDF . ',' IDS
+
+    ','  shift, and go to state 14
+
+    $default  reduce using rule 6 (IDS)
+
+
+state 9
+
+    2 DEC_PART: DEC DECLS .
+    3 DECLS: DECLS . DECL
+
+    IDF  shift, and go to state 8
+
+    $default  reduce using rule 2 (DEC_PART)
+
+    DECL  go to state 15
+    IDS   go to state 11
+
+
+state 10
+
+    4 DECLS: DECL .
+
+    $default  reduce using rule 4 (DECLS)
+
+
+state 11
+
+    5 DECL: IDS . ':' TYPE SEMICOL
+
+    ':'  shift, and go to state 16
+
+
+state 12
+
+   10 BODY_PART: BODY . BEG LBRACE INSTS RBRACE END
+
+    BEG  shift, and go to state 17
+
+
+state 13
+
+    1 S: MC_MAIN IDF SEMICOL DEC_PART BODY_PART .
+
+    $default  reduce using rule 1 (S)
+
+
+state 14
+
+    7 IDS: IDF ',' . IDS
+
+    IDF  shift, and go to state 8
+
+    IDS  go to state 18
+
+
+state 15
+
+    3 DECLS: DECLS DECL .
+
+    $default  reduce using rule 3 (DECLS)
+
+
+state 16
+
+    5 DECL: IDS ':' . TYPE SEMICOL
+
+    T_INT    shift, and go to state 19
+    T_FLOAT  shift, and go to state 20
+
+    TYPE  go to state 21
+
+
+state 17
+
+   10 BODY_PART: BODY BEG . LBRACE INSTS RBRACE END
+
+    LBRACE  shift, and go to state 22
+
+
+state 18
+
+    7 IDS: IDF ',' IDS .
+
+    $default  reduce using rule 7 (IDS)
+
+
+state 19
+
+    8 TYPE: T_INT .
+
+    $default  reduce using rule 8 (TYPE)
+
+
+state 20
+
+    9 TYPE: T_FLOAT .
+
+    $default  reduce using rule 9 (TYPE)
+
+
+state 21
+
+    5 DECL: IDS ':' TYPE . SEMICOL
+
+    SEMICOL  shift, and go to state 23
+
+
+state 22
+
+   10 BODY_PART: BODY BEG LBRACE . INSTS RBRACE END
+
+    WRITE  shift, and go to state 24
+    IF     shift, and go to state 25
+    FOR    shift, and go to state 26
+    DO     shift, and go to state 27
+    IDF    shift, and go to state 28
+
+    INSTS       go to state 29
+    INST        go to state 30
+    AFFECT      go to state 31
+    ARRAY_DECL  go to state 32
+    COND        go to state 33
+    LOOP        go to state 34
+
+
+state 23
+
+    5 DECL: IDS ':' TYPE SEMICOL .
+
+    $default  reduce using rule 5 (DECL)
+
+
+state 24
+
+   14 INST: WRITE . LPAREN CHAINE RPAREN SEMICOL
+
+    LPAREN  shift, and go to state 35
+
+
+state 25
+
+   27 COND: IF . LPAREN COND_EXPR RPAREN LBRACE INSTS RBRACE ELSE_PART ENDIF SEMICOL
+
+    LPAREN  shift, and go to state 36
+
+
+state 26
+
+   40 LOOP: FOR . IDF DE CST A CST PAS CST LBRACE INSTS RBRACE
+
+    IDF  shift, and go to state 37
+
+
+state 27
+
+   41 LOOP: DO . LBRACE INSTS RBRACE WHILE LPAREN COND_EXPR RPAREN SEMICOL
+
+    LBRACE  shift, and go to state 38
+
+
+state 28
+
+   18 AFFECT: IDF . ASSIGN EXPR
+   19 ARRAY_DECL: IDF . LBRACKET CST RBRACKET
+
+    ASSIGN    shift, and go to state 39
+    LBRACKET  shift, and go to state 40
+
+
+state 29
+
+   10 BODY_PART: BODY BEG LBRACE INSTS . RBRACE END
+   12 INSTS: INSTS . INST
+
+    WRITE   shift, and go to state 24
+    IF      shift, and go to state 25
+    FOR     shift, and go to state 26
+    DO      shift, and go to state 27
+    IDF     shift, and go to state 28
+    RBRACE  shift, and go to state 41
+
+    INST        go to state 42
+    AFFECT      go to state 31
+    ARRAY_DECL  go to state 32
+    COND        go to state 33
+    LOOP        go to state 34
+
+
+state 30
+
+   11 INSTS: INST .
+
+    $default  reduce using rule 11 (INSTS)
+
+
+state 31
+
+   13 INST: AFFECT . SEMICOL
+
+    SEMICOL  shift, and go to state 43
+
+
+state 32
+
+   17 INST: ARRAY_DECL . SEMICOL
+
+    SEMICOL  shift, and go to state 44
+
+
+state 33
+
+   15 INST: COND .
+
+    $default  reduce using rule 15 (INST)
+
+
+state 34
+
+   16 INST: LOOP .
+
+    $default  reduce using rule 16 (INST)
+
+
+state 35
+
+   14 INST: WRITE LPAREN . CHAINE RPAREN SEMICOL
+
+    CHAINE  shift, and go to state 45
+
+
+state 36
+
+   27 COND: IF LPAREN . COND_EXPR RPAREN LBRACE INSTS RBRACE ELSE_PART ENDIF SEMICOL
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    NOT     shift, and go to state 48
+    LPAREN  shift, and go to state 49
+
+    EXPR       go to state 50
+    COND_EXPR  go to state 51
+
+
+state 37
+
+   40 LOOP: FOR IDF . DE CST A CST PAS CST LBRACE INSTS RBRACE
+
+    DE  shift, and go to state 52
+
+
+state 38
+
+   41 LOOP: DO LBRACE . INSTS RBRACE WHILE LPAREN COND_EXPR RPAREN SEMICOL
+
+    WRITE  shift, and go to state 24
+    IF     shift, and go to state 25
+    FOR    shift, and go to state 26
+    DO     shift, and go to state 27
+    IDF    shift, and go to state 28
+
+    INSTS       go to state 53
+    INST        go to state 30
+    AFFECT      go to state 31
+    ARRAY_DECL  go to state 32
+    COND        go to state 33
+    LOOP        go to state 34
+
+
+state 39
+
+   18 AFFECT: IDF ASSIGN . EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 55
+
+
+state 40
+
+   19 ARRAY_DECL: IDF LBRACKET . CST RBRACKET
+
+    CST  shift, and go to state 56
+
+
+state 41
+
+   10 BODY_PART: BODY BEG LBRACE INSTS RBRACE . END
+
+    END  shift, and go to state 57
+
+
+state 42
+
+   12 INSTS: INSTS INST .
+
+    $default  reduce using rule 12 (INSTS)
+
+
+state 43
+
+   13 INST: AFFECT SEMICOL .
+
+    $default  reduce using rule 13 (INST)
+
+
+state 44
+
+   17 INST: ARRAY_DECL SEMICOL .
+
+    $default  reduce using rule 17 (INST)
+
+
+state 45
+
+   14 INST: WRITE LPAREN CHAINE . RPAREN SEMICOL
+
+    RPAREN  shift, and go to state 58
+
+
+state 46
+
+   26 EXPR: IDF .
+
+    $default  reduce using rule 26 (EXPR)
+
+
+state 47
+
+   25 EXPR: CST .
+
+    $default  reduce using rule 25 (EXPR)
+
+
+state 48
+
+   38 COND_EXPR: NOT . COND_EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    NOT     shift, and go to state 48
+    LPAREN  shift, and go to state 49
+
+    EXPR       go to state 50
+    COND_EXPR  go to state 59
+
+
+state 49
+
+   24 EXPR: LPAREN . EXPR RPAREN
+   39 COND_EXPR: LPAREN . COND_EXPR RPAREN
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    NOT     shift, and go to state 48
+    LPAREN  shift, and go to state 49
+
+    EXPR       go to state 60
+    COND_EXPR  go to state 61
+
+
+state 50
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+   30 COND_EXPR: EXPR . LT EXPR
+   31          | EXPR . LE EXPR
+   32          | EXPR . GT EXPR
+   33          | EXPR . GE EXPR
+   34          | EXPR . EQ EXPR
+   35          | EXPR . NE EXPR
+
+    PLUS   shift, and go to state 62
+    MINUS  shift, and go to state 63
+    MUL    shift, and go to state 64
+    DIV    shift, and go to state 65
+    EQ     shift, and go to state 66
+    NE     shift, and go to state 67
+    LT     shift, and go to state 68
+    LE     shift, and go to state 69
+    GT     shift, and go to state 70
+    GE     shift, and go to state 71
+
+
+state 51
+
+   27 COND: IF LPAREN COND_EXPR . RPAREN LBRACE INSTS RBRACE ELSE_PART ENDIF SEMICOL
+   36 COND_EXPR: COND_EXPR . AND COND_EXPR
+   37          | COND_EXPR . OR COND_EXPR
+
+    AND     shift, and go to state 72
+    OR      shift, and go to state 73
+    RPAREN  shift, and go to state 74
+
+
+state 52
+
+   40 LOOP: FOR IDF DE . CST A CST PAS CST LBRACE INSTS RBRACE
+
+    CST  shift, and go to state 75
+
+
+state 53
+
+   12 INSTS: INSTS . INST
+   41 LOOP: DO LBRACE INSTS . RBRACE WHILE LPAREN COND_EXPR RPAREN SEMICOL
+
+    WRITE   shift, and go to state 24
+    IF      shift, and go to state 25
+    FOR     shift, and go to state 26
+    DO      shift, and go to state 27
+    IDF     shift, and go to state 28
+    RBRACE  shift, and go to state 76
+
+    INST        go to state 42
+    AFFECT      go to state 31
+    ARRAY_DECL  go to state 32
+    COND        go to state 33
+    LOOP        go to state 34
+
+
+state 54
+
+   24 EXPR: LPAREN . EXPR RPAREN
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 77
+
+
+state 55
+
+   18 AFFECT: IDF ASSIGN EXPR .
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+
+    PLUS   shift, and go to state 62
+    MINUS  shift, and go to state 63
+    MUL    shift, and go to state 64
+    DIV    shift, and go to state 65
+
+    $default  reduce using rule 18 (AFFECT)
+
+
+state 56
+
+   19 ARRAY_DECL: IDF LBRACKET CST . RBRACKET
+
+    RBRACKET  shift, and go to state 78
+
+
+state 57
+
+   10 BODY_PART: BODY BEG LBRACE INSTS RBRACE END .
+
+    $default  reduce using rule 10 (BODY_PART)
+
+
+state 58
+
+   14 INST: WRITE LPAREN CHAINE RPAREN . SEMICOL
+
+    SEMICOL  shift, and go to state 79
+
+
+state 59
+
+   36 COND_EXPR: COND_EXPR . AND COND_EXPR
+   37          | COND_EXPR . OR COND_EXPR
+   38          | NOT COND_EXPR .
+
+    $default  reduce using rule 38 (COND_EXPR)
+
+
+state 60
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+   24     | LPAREN EXPR . RPAREN
+   30 COND_EXPR: EXPR . LT EXPR
+   31          | EXPR . LE EXPR
+   32          | EXPR . GT EXPR
+   33          | EXPR . GE EXPR
+   34          | EXPR . EQ EXPR
+   35          | EXPR . NE EXPR
+
+    PLUS    shift, and go to state 62
+    MINUS   shift, and go to state 63
+    MUL     shift, and go to state 64
+    DIV     shift, and go to state 65
+    EQ      shift, and go to state 66
+    NE      shift, and go to state 67
+    LT      shift, and go to state 68
+    LE      shift, and go to state 69
+    GT      shift, and go to state 70
+    GE      shift, and go to state 71
+    RPAREN  shift, and go to state 80
+
+
+state 61
+
+   36 COND_EXPR: COND_EXPR . AND COND_EXPR
+   37          | COND_EXPR . OR COND_EXPR
+   39          | LPAREN COND_EXPR . RPAREN
+
+    AND     shift, and go to state 72
+    OR      shift, and go to state 73
+    RPAREN  shift, and go to state 81
+
+
+state 62
+
+   20 EXPR: EXPR PLUS . EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 82
+
+
+state 63
+
+   21 EXPR: EXPR MINUS . EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 83
+
+
+state 64
+
+   22 EXPR: EXPR MUL . EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 84
+
+
+state 65
+
+   23 EXPR: EXPR DIV . EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 85
+
+
+state 66
+
+   34 COND_EXPR: EXPR EQ . EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 86
+
+
+state 67
+
+   35 COND_EXPR: EXPR NE . EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 87
+
+
+state 68
+
+   30 COND_EXPR: EXPR LT . EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 88
+
+
+state 69
+
+   31 COND_EXPR: EXPR LE . EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 89
+
+
+state 70
+
+   32 COND_EXPR: EXPR GT . EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 90
+
+
+state 71
+
+   33 COND_EXPR: EXPR GE . EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    LPAREN  shift, and go to state 54
+
+    EXPR  go to state 91
+
+
+state 72
+
+   36 COND_EXPR: COND_EXPR AND . COND_EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    NOT     shift, and go to state 48
+    LPAREN  shift, and go to state 49
+
+    EXPR       go to state 50
+    COND_EXPR  go to state 92
+
+
+state 73
+
+   37 COND_EXPR: COND_EXPR OR . COND_EXPR
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    NOT     shift, and go to state 48
+    LPAREN  shift, and go to state 49
+
+    EXPR       go to state 50
+    COND_EXPR  go to state 93
+
+
+state 74
+
+   27 COND: IF LPAREN COND_EXPR RPAREN . LBRACE INSTS RBRACE ELSE_PART ENDIF SEMICOL
+
+    LBRACE  shift, and go to state 94
+
+
+state 75
+
+   40 LOOP: FOR IDF DE CST . A CST PAS CST LBRACE INSTS RBRACE
+
+    A  shift, and go to state 95
+
+
+state 76
+
+   41 LOOP: DO LBRACE INSTS RBRACE . WHILE LPAREN COND_EXPR RPAREN SEMICOL
+
+    WHILE  shift, and go to state 96
+
+
+state 77
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+   24     | LPAREN EXPR . RPAREN
+
+    PLUS    shift, and go to state 62
+    MINUS   shift, and go to state 63
+    MUL     shift, and go to state 64
+    DIV     shift, and go to state 65
+    RPAREN  shift, and go to state 80
+
+
+state 78
+
+   19 ARRAY_DECL: IDF LBRACKET CST RBRACKET .
+
+    $default  reduce using rule 19 (ARRAY_DECL)
+
+
+state 79
+
+   14 INST: WRITE LPAREN CHAINE RPAREN SEMICOL .
+
+    $default  reduce using rule 14 (INST)
+
+
+state 80
+
+   24 EXPR: LPAREN EXPR RPAREN .
+
+    $default  reduce using rule 24 (EXPR)
+
+
+state 81
+
+   39 COND_EXPR: LPAREN COND_EXPR RPAREN .
+
+    $default  reduce using rule 39 (COND_EXPR)
+
+
+state 82
+
+   20 EXPR: EXPR . PLUS EXPR
+   20     | EXPR PLUS EXPR .
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+
+    MUL  shift, and go to state 64
+    DIV  shift, and go to state 65
+
+    $default  reduce using rule 20 (EXPR)
+
+
+state 83
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   21     | EXPR MINUS EXPR .
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+
+    MUL  shift, and go to state 64
+    DIV  shift, and go to state 65
+
+    $default  reduce using rule 21 (EXPR)
+
+
+state 84
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   22     | EXPR MUL EXPR .
+   23     | EXPR . DIV EXPR
+
+    $default  reduce using rule 22 (EXPR)
+
+
+state 85
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+   23     | EXPR DIV EXPR .
+
+    $default  reduce using rule 23 (EXPR)
+
+
+state 86
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+   34 COND_EXPR: EXPR EQ EXPR .
+
+    PLUS   shift, and go to state 62
+    MINUS  shift, and go to state 63
+    MUL    shift, and go to state 64
+    DIV    shift, and go to state 65
+
+    $default  reduce using rule 34 (COND_EXPR)
+
+
+state 87
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+   35 COND_EXPR: EXPR NE EXPR .
+
+    PLUS   shift, and go to state 62
+    MINUS  shift, and go to state 63
+    MUL    shift, and go to state 64
+    DIV    shift, and go to state 65
+
+    $default  reduce using rule 35 (COND_EXPR)
+
+
+state 88
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+   30 COND_EXPR: EXPR LT EXPR .
+
+    PLUS   shift, and go to state 62
+    MINUS  shift, and go to state 63
+    MUL    shift, and go to state 64
+    DIV    shift, and go to state 65
+
+    $default  reduce using rule 30 (COND_EXPR)
+
+
+state 89
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+   31 COND_EXPR: EXPR LE EXPR .
+
+    PLUS   shift, and go to state 62
+    MINUS  shift, and go to state 63
+    MUL    shift, and go to state 64
+    DIV    shift, and go to state 65
+
+    $default  reduce using rule 31 (COND_EXPR)
+
+
+state 90
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+   32 COND_EXPR: EXPR GT EXPR .
+
+    PLUS   shift, and go to state 62
+    MINUS  shift, and go to state 63
+    MUL    shift, and go to state 64
+    DIV    shift, and go to state 65
+
+    $default  reduce using rule 32 (COND_EXPR)
+
+
+state 91
+
+   20 EXPR: EXPR . PLUS EXPR
+   21     | EXPR . MINUS EXPR
+   22     | EXPR . MUL EXPR
+   23     | EXPR . DIV EXPR
+   33 COND_EXPR: EXPR GE EXPR .
+
+    PLUS   shift, and go to state 62
+    MINUS  shift, and go to state 63
+    MUL    shift, and go to state 64
+    DIV    shift, and go to state 65
+
+    $default  reduce using rule 33 (COND_EXPR)
+
+
+state 92
+
+   36 COND_EXPR: COND_EXPR . AND COND_EXPR
+   36          | COND_EXPR AND COND_EXPR .
+   37          | COND_EXPR . OR COND_EXPR
+
+    $default  reduce using rule 36 (COND_EXPR)
+
+
+state 93
+
+   36 COND_EXPR: COND_EXPR . AND COND_EXPR
+   37          | COND_EXPR . OR COND_EXPR
+   37          | COND_EXPR OR COND_EXPR .
+
+    AND  shift, and go to state 72
+
+    $default  reduce using rule 37 (COND_EXPR)
+
+
+state 94
+
+   27 COND: IF LPAREN COND_EXPR RPAREN LBRACE . INSTS RBRACE ELSE_PART ENDIF SEMICOL
+
+    WRITE  shift, and go to state 24
+    IF     shift, and go to state 25
+    FOR    shift, and go to state 26
+    DO     shift, and go to state 27
+    IDF    shift, and go to state 28
+
+    INSTS       go to state 97
+    INST        go to state 30
+    AFFECT      go to state 31
+    ARRAY_DECL  go to state 32
+    COND        go to state 33
+    LOOP        go to state 34
+
+
+state 95
+
+   40 LOOP: FOR IDF DE CST A . CST PAS CST LBRACE INSTS RBRACE
+
+    CST  shift, and go to state 98
+
+
+state 96
+
+   41 LOOP: DO LBRACE INSTS RBRACE WHILE . LPAREN COND_EXPR RPAREN SEMICOL
+
+    LPAREN  shift, and go to state 99
+
+
+state 97
+
+   12 INSTS: INSTS . INST
+   27 COND: IF LPAREN COND_EXPR RPAREN LBRACE INSTS . RBRACE ELSE_PART ENDIF SEMICOL
+
+    WRITE   shift, and go to state 24
+    IF      shift, and go to state 25
+    FOR     shift, and go to state 26
+    DO      shift, and go to state 27
+    IDF     shift, and go to state 28
+    RBRACE  shift, and go to state 100
+
+    INST        go to state 42
+    AFFECT      go to state 31
+    ARRAY_DECL  go to state 32
+    COND        go to state 33
+    LOOP        go to state 34
+
+
+state 98
+
+   40 LOOP: FOR IDF DE CST A CST . PAS CST LBRACE INSTS RBRACE
+
+    PAS  shift, and go to state 101
+
+
+state 99
+
+   41 LOOP: DO LBRACE INSTS RBRACE WHILE LPAREN . COND_EXPR RPAREN SEMICOL
+
+    IDF     shift, and go to state 46
+    CST     shift, and go to state 47
+    NOT     shift, and go to state 48
+    LPAREN  shift, and go to state 49
+
+    EXPR       go to state 50
+    COND_EXPR  go to state 102
+
+
+state 100
+
+   27 COND: IF LPAREN COND_EXPR RPAREN LBRACE INSTS RBRACE . ELSE_PART ENDIF SEMICOL
+
+    ELSE  shift, and go to state 103
+
+    $default  reduce using rule 29 (ELSE_PART)
+
+    ELSE_PART  go to state 104
+
+
+state 101
+
+   40 LOOP: FOR IDF DE CST A CST PAS . CST LBRACE INSTS RBRACE
+
+    CST  shift, and go to state 105
+
+
+state 102
+
+   36 COND_EXPR: COND_EXPR . AND COND_EXPR
+   37          | COND_EXPR . OR COND_EXPR
+   41 LOOP: DO LBRACE INSTS RBRACE WHILE LPAREN COND_EXPR . RPAREN SEMICOL
+
+    AND     shift, and go to state 72
+    OR      shift, and go to state 73
+    RPAREN  shift, and go to state 106
+
+
+state 103
+
+   28 ELSE_PART: ELSE . LBRACE INSTS RBRACE
+
+    LBRACE  shift, and go to state 107
+
+
+state 104
+
+   27 COND: IF LPAREN COND_EXPR RPAREN LBRACE INSTS RBRACE ELSE_PART . ENDIF SEMICOL
+
+    ENDIF  shift, and go to state 108
+
+
+state 105
+
+   40 LOOP: FOR IDF DE CST A CST PAS CST . LBRACE INSTS RBRACE
+
+    LBRACE  shift, and go to state 109
+
+
+state 106
+
+   41 LOOP: DO LBRACE INSTS RBRACE WHILE LPAREN COND_EXPR RPAREN . SEMICOL
+
+    SEMICOL  shift, and go to state 110
+
+
+state 107
+
+   28 ELSE_PART: ELSE LBRACE . INSTS RBRACE
+
+    WRITE  shift, and go to state 24
+    IF     shift, and go to state 25
+    FOR    shift, and go to state 26
+    DO     shift, and go to state 27
+    IDF    shift, and go to state 28
+
+    INSTS       go to state 111
+    INST        go to state 30
+    AFFECT      go to state 31
+    ARRAY_DECL  go to state 32
+    COND        go to state 33
+    LOOP        go to state 34
+
+
+state 108
+
+   27 COND: IF LPAREN COND_EXPR RPAREN LBRACE INSTS RBRACE ELSE_PART ENDIF . SEMICOL
+
+    SEMICOL  shift, and go to state 112
+
+
+state 109
+
+   40 LOOP: FOR IDF DE CST A CST PAS CST LBRACE . INSTS RBRACE
+
+    WRITE  shift, and go to state 24
+    IF     shift, and go to state 25
+    FOR    shift, and go to state 26
+    DO     shift, and go to state 27
+    IDF    shift, and go to state 28
+
+    INSTS       go to state 113
+    INST        go to state 30
+    AFFECT      go to state 31
+    ARRAY_DECL  go to state 32
+    COND        go to state 33
+    LOOP        go to state 34
+
+
+state 110
+
+   41 LOOP: DO LBRACE INSTS RBRACE WHILE LPAREN COND_EXPR RPAREN SEMICOL .
+
+    $default  reduce using rule 41 (LOOP)
+
+
+state 111
+
+   12 INSTS: INSTS . INST
+   28 ELSE_PART: ELSE LBRACE INSTS . RBRACE
+
+    WRITE   shift, and go to state 24
+    IF      shift, and go to state 25
+    FOR     shift, and go to state 26
+    DO      shift, and go to state 27
+    IDF     shift, and go to state 28
+    RBRACE  shift, and go to state 114
+
+    INST        go to state 42
+    AFFECT      go to state 31
+    ARRAY_DECL  go to state 32
+    COND        go to state 33
+    LOOP        go to state 34
+
+
+state 112
+
+   27 COND: IF LPAREN COND_EXPR RPAREN LBRACE INSTS RBRACE ELSE_PART ENDIF SEMICOL .
+
+    $default  reduce using rule 27 (COND)
+
+
+state 113
+
+   12 INSTS: INSTS . INST
+   40 LOOP: FOR IDF DE CST A CST PAS CST LBRACE INSTS . RBRACE
+
+    WRITE   shift, and go to state 24
+    IF      shift, and go to state 25
+    FOR     shift, and go to state 26
+    DO      shift, and go to state 27
+    IDF     shift, and go to state 28
+    RBRACE  shift, and go to state 115
+
+    INST        go to state 42
+    AFFECT      go to state 31
+    ARRAY_DECL  go to state 32
+    COND        go to state 33
+    LOOP        go to state 34
+
+
+state 114
+
+   28 ELSE_PART: ELSE LBRACE INSTS RBRACE .
+
+    $default  reduce using rule 28 (ELSE_PART)
+
+
+state 115
+
+   40 LOOP: FOR IDF DE CST A CST PAS CST LBRACE INSTS RBRACE .
+
+    $default  reduce using rule 40 (LOOP)
