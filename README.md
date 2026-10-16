@@ -1,8 +1,3 @@
-# TP_Compil — TP Language Compiler (C/Flex/Bison)
-
-`TP_Compil` is an academic compiler front-end project for the **TP** language.
-It implements lexical, syntax, and semantic analysis with diagnostics and symbol-table output.
-
 ## Features
 
 - **Lexical analysis (Flex)** in `lex2.l`
